@@ -24,9 +24,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Debug - List files
-        run: ls -la # Pour vérifier la présence de composer.json
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -38,14 +35,9 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit tests
-        run: vendor/bin/phpunit
+        run: php vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result
         env:
-          DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
-          DB_PORT: 3306
-          DB_DATABASE: inscription_test
-          DB_USERNAME: root
-          DB_PASSWORD: root
+          DB_PASSWORD: root # Important : correspond au mot de passe du service MySQL plus haut
 
   deploy:
     runs-on: ubuntu-latest
