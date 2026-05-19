@@ -35,9 +35,17 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit tests
-        run: php vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result
+        # On lance PHPUnit directement sur le dossier tests sans utiliser de fichier de config XML
+        run: |
+          mkdir -p tests/Unit
+          php vendor/bin/phpunit --bootstrap vendor/autoload.php --colors=always tests
         env:
-          DB_PASSWORD: root # Important : correspond au mot de passe du service MySQL plus haut
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: inscription_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
 
   deploy:
     runs-on: ubuntu-latest
