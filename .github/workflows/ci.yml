@@ -2,13 +2,14 @@ name: CI-CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "feature/nouvelle-fonction" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    
     services:
       mysql:
         image: mysql:8.0
@@ -22,6 +23,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Debug - List files
+        run: ls -la # Pour vérifier la présence de composer.json
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
