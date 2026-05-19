@@ -2,9 +2,9 @@ name: CI-CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main", "feature/nouvelle-fonction" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main", "feature/nouvelle-fonction" ]
 
 jobs:
   build-and-test:
@@ -34,7 +34,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPUnit tests
-        # La correction est ici : on ajoute "php" devant
+        # On utilise "php" devant pour éviter l'erreur Permission Denied
         run: php vendor/bin/phpunit --colors=always
         env:
           DB_CONNECTION: mysql
